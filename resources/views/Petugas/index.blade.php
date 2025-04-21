@@ -1,12 +1,14 @@
 @extends('layouts.app')
 @section('content')
-<h2 class="mb-4">Daftar Petugas</h2>
+<h2 class="mb-4">Daftar Peminjaman</h2>
 <ul class="list-group">
-@foreach ($petugas as $ptg)
+@foreach ($peminjaman as $pjm)
     <li class="list-group-item">
-        <a href="/petugas/{{ $ptg['id'] }}">{{ $ptg['nama'] }}</a>
+        <a href="/peminjaman/{{ $pjm['id'] }}">
+            ID Peminjaman: {{ $pjm['id'] }} |  
+        </a>
     </li>
 @endforeach
 </ul>
-<a href="/petugas/create" class="btn btn-primary mt-3">+ Tambah Petugas</a>
+<a href="/peminjaman/create" class="btn btn-primary mt-3">+ Tambah Peminjaman</a>
 @endsection
