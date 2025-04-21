@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.app')
 @section('content')
 <h2>Detail Peminjaman</h2>
 <p><strong>ID Buku:</strong> {{ $peminjaman['id_buku'] }}</p>

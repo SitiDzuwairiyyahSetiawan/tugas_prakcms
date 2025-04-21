@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.app')
 @section('content')
 <h2 class="mb-4">Edit Data Petugas</h2>
 <form>

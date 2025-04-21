@@ -1,4 +1,5 @@
-@extends('layouts.main')
+@extends('layouts.app')
+
 @section('content')
 <h2>Edit Peminjaman</h2>
 <form>

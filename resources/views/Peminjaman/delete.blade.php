@@ -1,7 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.app')
+
 @section('content')
-<h2>Hapus Peminjaman</h2>
-<p>Yakin ingin menghapus peminjaman #{{ $peminjaman['id'] }}?</p>
-<button disabled>Ya, Hapus</button>
+<h2>Hapus Denda</h2>
+<p>Yakin ingin menghapus peminjaman ID {{ $peminjaman['id'] }}?</p>
+<button disabled>Ya, Hapus (dummy)</button>
 <a href="/peminjaman/{{ $peminjaman['id'] }}">Batal</a>
 @endsection
