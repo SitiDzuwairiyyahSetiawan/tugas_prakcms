@@ -9,16 +9,7 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        return view('siswa.index', [
-            'siswa' => Siswa::all()
-        ]);
-    }
-
-    public function show($id)
-    {
-        return view('siswa.show', [
-            'siswa' => Siswa::find($id)
-        ]);
+        return view('siswa.index', ['siswas' => Siswa::all()]);
     }
 
     public function create()
@@ -26,17 +17,48 @@ class SiswaController extends Controller
         return view('siswa.create');
     }
 
-    public function edit($id)
+    public function store(Request $request)
     {
-        return view('siswa.edit', [
-            'siswa' => Siswa::find($id)
+        $request->validate([
+            'nisn' => 'required|string|max:20',
+            'nama' => 'required|string|max:100',
+            'kelas' => 'required|string|max:50',
+            'alamat' => 'required|string',
+            'nomor_telepon' => 'required|string|max:15',
+            'email' => 'required|email|max:100',
         ]);
+
+        $siswa = Siswa::create($request->all());
+
+        // Gunakan 'id_siswa' sebagai parameter
+        return redirect()->route('siswa.show', $siswa->id_siswa);
     }
 
-    public function delete($id)
+
+    public function show($id)
     {
-        return view('siswa.delete', [
-            'siswa' => Siswa::find($id)
-        ]);
+        $siswa = Siswa::findOrFail($id);
+        return view('siswa.show', compact('siswa'));
+    }
+
+
+    public function edit($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        return view('siswa.edit', compact('siswa'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        $siswa->update($request->all());
+
+        return redirect()->route('siswa.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        Siswa::destroy($id);
+        return redirect()->route('siswa.index');
     }
 }

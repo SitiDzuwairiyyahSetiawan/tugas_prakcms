@@ -3,13 +3,18 @@
 @section('title', 'Hapus Buku')
 
 @section('content')
-    <h2>Yakin ingin menghapus buku ini?</h2>
+    <h2>Hapus Buku</h2>
+    <p>Apakah Anda yakin ingin menghapus buku ini?</p>
 
-    <div class="mb-3">
-        <p><strong>{{ $buku['judul'] }}</strong></p>
-        <p>{{ $buku['penulis'] }} | {{ $buku['penerbit'] }}</p>
-    </div>
+    <ul>
+        <li><strong>Judul:</strong> {{ $buku->judul_buku }}</li>
+        <li><strong>Penulis:</strong> {{ $buku->penulis }}</li>
+    </ul>
 
-    <button disabled class="btn btn-danger">Ya, hapus (dummy)</button>
-    <a href="/buku/{{ $buku['id'] }}" class="btn btn-secondary">Batal</a>
+    <form method="POST" action="{{ route('buku.destroy', $buku->id_buku) }}">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Ya, Hapus</button>
+        <a href="{{ route('buku.index') }}">Batal</a>
+    </form>
 @endsection

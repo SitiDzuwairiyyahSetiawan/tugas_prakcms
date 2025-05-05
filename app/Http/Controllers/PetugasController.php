@@ -9,16 +9,7 @@ class PetugasController extends Controller
 {
     public function index()
     {
-        return view('petugas.index', [
-            'petugas' => Petugas::all()
-        ]);
-    }
-
-    public function show($id)
-    {
-        return view('petugas.show', [
-            'petugas' => Petugas::find($id)
-        ]);
+        return view('petugas.index', ['petugas' => Petugas::all()]);
     }
 
     public function create()
@@ -26,17 +17,43 @@ class PetugasController extends Controller
         return view('petugas.create');
     }
 
-    public function edit($id)
+    public function store(Request $request)
     {
-        return view('petugas.edit', [
-            'petugas' => Petugas::find($id)
+        $request->validate([
+            'nama' => 'required|string|max:100',
+            'username' => 'required|string|max:50',
+            'password' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
         ]);
+
+        Petugas::create($request->all());
+
+        return redirect()->route('petugas.index');
     }
 
-    public function delete($id)
+    public function show($id)
     {
-        return view('petugas.delete', [
-            'petugas' => Petugas::find($id)
-        ]);
+        $petugas = Petugas::findOrFail($id);
+        return view('petugas.show', compact('petugas'));
+    }
+
+    public function edit($id)
+    {
+        $petugas = Petugas::findOrFail($id);
+        return view('petugas.edit', compact('petugas'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $petugas = Petugas::findOrFail($id);
+        $petugas->update($request->all());
+
+        return redirect()->route('petugas.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        Petugas::destroy($id);
+        return redirect()->route('petugas.index');
     }
 }

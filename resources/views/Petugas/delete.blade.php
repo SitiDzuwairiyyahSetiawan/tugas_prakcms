@@ -1,9 +1,20 @@
 @extends('layouts.app')
+
+@section('title', 'Hapus Petugas')
+
 @section('content')
-<h2 class="mb-4">Konfirmasi Hapus Petugas</h2>
-<div class="alert alert-warning">
-    <p>Yakin ingin menghapus <strong>{{ $petugas['nama'] }}</strong>?</p>
-</div>
-<button class="btn btn-danger" disabled>Ya, Hapus (dummy)</button>
-<a href="/petugas/{{ $petugas['id'] }}" class="btn btn-secondary">Batal</a>
+    <h2>Hapus Petugas</h2>
+    <p>Apakah kamu yakin ingin menghapus data petugas ini?</p>
+
+    <ul>
+        <li><strong>Nama:</strong> {{ $petugas->nama }}</li>
+        <li><strong>Username:</strong> {{ $petugas->username }}</li>
+    </ul>
+
+    <form method="POST" action="{{ route('petugas.destroy', $petugas->id_petugas) }}">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Ya, Hapus</button>
+        <a href="{{ route('petugas.index') }}">Batal</a>
+    </form>
 @endsection

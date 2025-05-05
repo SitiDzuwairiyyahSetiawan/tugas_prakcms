@@ -1,41 +1,34 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
-use App\Http\Controllers\DendaController;
-use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\DendaController;
 
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/buku', [BukuController::class, 'index']);
-Route::get('/buku/create', [BukuController::class, 'create']);
-Route::get('/buku/{id}', [BukuController::class, 'show']);
-Route::get('/buku/{id}/edit', [BukuController::class, 'edit']);
-Route::get('/buku/{id}/delete', [BukuController::class, 'delete']);
+// Buku Routes
+Route::resource('buku', BukuController::class);
+Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
-Route::get('/denda', [DendaController::class, 'index']);
-Route::get('/denda/create', [DendaController::class, 'create']);
-Route::get('/denda/{id}', [DendaController::class, 'show']);
-Route::get('/denda/{id}/edit', [DendaController::class, 'edit']);
-Route::get('/denda/{id}/delete', [DendaController::class, 'delete']);
+// Siswa Routes
+Route::resource('siswa', SiswaController::class);
+Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+Route::get('siswa/{siswa}', [SiswaController::class, 'show'])->name('siswa.show');
 
-Route::get('/peminjaman', [PeminjamanController::class, 'index']);
-Route::get('/peminjaman/create', [PeminjamanController::class, 'create']);
-Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show']);
-Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit']);
-Route::get('/peminjaman/{id}/delete', [PeminjamanController::class, 'delete']);
+// Petugas Routes
+Route::resource('petugas', PetugasController::class);
+Route::delete('/petugas/{id}', [PetugasController::class, 'destroy'])->name('petugas.destroy');
+Route::get('/petugas/{id}', [PetugasController::class, 'show'])->name('petugas.show');
 
-Route::get('/petugas', [PetugasController::class, 'index']);
-Route::get('/petugas/create', [PetugasController::class, 'create']);
-Route::get('/petugas/{id}', [PetugasController::class, 'show']);
-Route::get('/petugas/{id}/edit', [PetugasController::class, 'edit']);
-Route::get('/petugas/{id}/delete', [PetugasController::class, 'delete']);
+// Peminjaman Routes
+Route::resource('peminjaman', PeminjamanController::class);
+Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
 
-Route::get('/siswa', [SiswaController::class, 'index']);
-Route::get('/siswa/create', [SiswaController::class, 'create']);
-Route::get('/siswa/{id}', [SiswaController::class, 'show']);
-Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit']);
-Route::get('/siswa/{id}/delete', [SiswaController::class, 'delete']);
+// Denda Routes
+Route::resource('denda', DendaController::class);
+Route::delete('/denda/{id}', [DendaController::class, 'destroy'])->name('denda.destroy');

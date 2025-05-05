@@ -9,34 +9,65 @@ class DendaController extends Controller
 {
     public function index()
     {
-        return view('denda.index', [
-            'denda' => Denda::all()
-        ]);
-    }
-
-    public function show($id)
-    {
-        return view('denda.show', [
-            'denda' => Denda::find($id)
-        ]);
+        // Load semua data denda beserta relasi peminjaman, buku, dan siswa
+        $dendas = Denda::with('peminjaman.buku', 'peminjaman.siswa')->get();
+        return view('denda.index', ['denda' => $dendas]);
     }
 
     public function create()
     {
-        return view('denda.create');
+        $peminjaman = \App\Models\Peminjaman::all(); // pastikan model dan namespace benar
+        return view('denda.create', compact('peminjaman'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'id_peminjaman' => 'required|exists:peminjamans,id_peminjaman',
+            'jumlah_denda_perhari' => 'required|numeric|min:0',
+            'total_denda' => 'required|numeric|min:0',
+            'status_pembayaran' => 'required|string|max:50',
+            'tanggal_pembayaran' => 'nullable|date',
+        ]);
+
+        Denda::create($request->all());
+
+        return redirect()->route('denda.index');
+    }
+
+    public function show($id)
+    {
+        // Load data denda spesifik dengan relasi yang diperlukan
+        $denda = Denda::with('peminjaman.buku', 'peminjaman.siswa')->findOrFail($id);
+        return view('denda.show', compact('denda'));
     }
 
     public function edit($id)
     {
-        return view('denda.edit', [
-            'denda' => Denda::find($id)
-        ]);
+        $denda = Denda::findOrFail($id);
+        return view('denda.edit', compact('denda'));
     }
 
-    public function delete($id)
+    public function update(Request $request, $id)
     {
-        return view('denda.delete', [
-            'denda' => Denda::find($id)
+        $request->validate([
+            'id_peminjaman' => 'required|exists:peminjamans,id_peminjaman',
+            'jumlah_denda_perhari' => 'required|numeric|min:0',
+            'total_denda' => 'required|numeric|min:0',
+            'status_pembayaran' => 'required|string|max:50',
+            'tanggal_pembayaran' => 'nullable|date',
         ]);
+
+        $denda = Denda::findOrFail($id);
+        $denda->update($request->all());
+
+        return redirect()->route('denda.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        Denda::destroy($id);
+        return redirect()->route('denda.index');
     }
 }

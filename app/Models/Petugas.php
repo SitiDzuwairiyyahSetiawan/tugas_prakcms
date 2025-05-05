@@ -2,39 +2,24 @@
 
 namespace App\Models;
 
-class Petugas
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Petugas extends Model
 {
-    private static $data_petugas = [
-        [
-            'id' => 3001,
-            'nama' => 'Rina Suryani',
-            'username' => 'rina_suryani',
-            'email' => 'rina.suryani@gmail.com',
-            'password' => 'Rina12345!',
-        ],
-        [
-            'id' => 3002,
-            'nama' => 'Adi Putra',
-            'username' => 'adi_putra',
-            'email' => 'adi.putra@gmail.com',
-            'password' => 'Adi12345!',
-        ],
-        [
-            'id' => 3003,
-            'nama' => 'Siti Rahmawati',
-            'username' => 'siti_rahma',
-            'email' => 'siti.rahma@gmail.com',
-            'password' => 'Siti12345!',
-        ],
+    use HasFactory;
+
+    protected $table = 'petugas';
+    protected $primaryKey = 'id_petugas';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id_petugas',
+        'nama',
+        'username',
+        'password',
+        'email'
     ];
-
-    public static function all()
-    {
-        return collect(self::$data_petugas);
-    }
-
-    public static function find($id)
-    {
-        return collect(self::$data_petugas)->firstWhere('id', $id);
-    }
 }

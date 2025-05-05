@@ -1,24 +1,26 @@
 @extends('layouts.app')
+
+@section('title', 'Tambah Petugas')
+
 @section('content')
-<h2 class="mb-4">Tambah Petugas Baru</h2>
-<form>
-    <div class="mb-3">
-        <label class="form-label">Nama</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control">
-    </div>
-    <button class="btn btn-success" disabled>Tambah (dummy)</button>
-</form>
-<a href="/petugas" class="btn btn-secondary mt-3">← Kembali ke daftar</a>
+    <h2>Tambah Petugas Baru</h2>
+
+    <form method="POST" action="{{ route('petugas.store') }}">
+        @csrf
+        <label>Nama:</label><br>
+        <input type="text" name="nama" required><br><br>
+
+        <label>Username:</label><br>
+        <input type="text" name="username" required><br><br>
+
+        <label>Password:</label><br>
+        <input type="text" name="password" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <button type="submit">Tambah</button>
+    </form>
+
+    <a href="{{ route('petugas.index') }}" style="margin-top: 20px; display:inline-block;">← Kembali ke daftar</a>
 @endsection

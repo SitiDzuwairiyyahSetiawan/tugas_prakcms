@@ -1,35 +1,23 @@
 @extends('layouts.app')
 
+@section('title', 'Daftar Peminjaman')
+
 @section('content')
-<h2 class="mb-4">Data Peminjaman</h2>
+    <h2>Daftar Peminjaman</h2>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nama Buku</th>
-            <th>Nama Siswa</th>
-            <th>Nama Petugas</th>
-            <th>Tanggal Pinjam</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($peminjaman as $p)
-        <tr>
-            <td>{{ $p->id }}</td>
-            <td>{{ $p->buku->judul ?? '-' }}</td>
-            <td>{{ $p->siswa->nama ?? '-' }}</td>
-            <td>{{ $p->petugas->nama ?? '-' }}</td>
-            <td>{{ $p->tanggal_pinjam ?? '-' }}</td>
-            <td>
-                <a href="/peminjaman/{{ $p->id }}" class="btn btn-sm btn-info">Lihat</a>
-                <a href="/peminjaman/{{ $p->id }}/edit" class="btn btn-sm btn-warning">Edit</a>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    <a href="{{ route('peminjaman.create') }}">+ Tambah Peminjaman</a>
+    <br><br>
 
-<a href="/peminjaman/create" class="btn btn-primary mt-3">+ Tambah Peminjaman</a>
+    <!-- Menampilkan daftar peminjaman -->
+    <ul>
+        @forelse($peminjaman as $item)
+            <li>
+                <a href="{{ route('peminjaman.show', $item->id_peminjaman) }}">
+                    {{ $item->buku->judul_buku }} oleh {{ $item->siswa->nama }} ({{ $item->status_peminjaman }})
+                </a>
+            </li>
+        @empty
+            <p>Tidak ada data peminjaman.</p>
+        @endforelse
+    </ul>
 @endsection
