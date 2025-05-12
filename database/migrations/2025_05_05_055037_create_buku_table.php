@@ -12,8 +12,8 @@ return new class extends Migration {
             $table->string('judul_buku', 255);
             $table->string('penulis', 100);
             $table->string('penerbit', 100);
-            $table->date('tahun_terbit');
-            $table->string('isbn', 20);
+            $table->integer('tahun_terbit');
+            $table->string('isbn', 13);
             $table->string('kategori_buku', 100);
             $table->integer('jumlah_buku_tersedia');
         });

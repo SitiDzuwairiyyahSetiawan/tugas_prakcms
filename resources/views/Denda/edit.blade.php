@@ -9,11 +9,10 @@
         @csrf
         @method('PUT')
 
-        <label>Peminjaman:</label><br>
+        <label for="id_peminjaman">Peminjaman:</label><br>
         <select name="id_peminjaman" required>
-            @foreach($peminjaman as $item)
+            @foreach($peminjamans as $item)
                 <option value="{{ $item->id_peminjaman }}" {{ $item->id_peminjaman == $denda->id_peminjaman ? 'selected' : '' }}>
-                    {{ $item->buku->judul_buku }} - {{ $item->siswa->nama }}
                 </option>
             @endforeach
         </select><br><br>

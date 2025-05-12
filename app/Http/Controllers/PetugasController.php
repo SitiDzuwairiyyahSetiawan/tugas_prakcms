@@ -9,7 +9,8 @@ class PetugasController extends Controller
 {
     public function index()
     {
-        return view('petugas.index', ['petugas' => Petugas::all()]);
+        $petugas = Petugas::all();
+        return view('petugas.index', compact('petugas'));
     }
 
     public function create()
@@ -19,17 +20,22 @@ class PetugasController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'username' => 'required|string|max:50',
-            'password' => 'required|string|max:100',
-            'email' => 'required|email|max:100',
+            'username' => 'required|string|max:50|unique:petugas,username',
+            'password' => 'required|string|min:8|max:15',
+            'email' => 'required|email|max:100|unique:petugas,email',
         ]);
 
-        Petugas::create($request->all());
+        $validated['password'] = bcrypt($validated['password']);  // Hash password
 
-        return redirect()->route('petugas.index');
+        $validated['id_petugas'] = 'PT' . strtoupper(uniqid());
+
+        Petugas::create($validated);
+
+        return redirect()->route('petugas.index')->with('success', 'Petugas berhasil ditambahkan!');
     }
+
 
     public function show($id)
     {
@@ -46,14 +52,30 @@ class PetugasController extends Controller
     public function update(Request $request, $id)
     {
         $petugas = Petugas::findOrFail($id);
-        $petugas->update($request->all());
 
-        return redirect()->route('petugas.show', $id);
+        $validated = $request->validate([
+            'nama' => 'required|string|max:100',
+            'username' => 'required|string|max:50|unique:petugas,username,' . $petugas->id_petugas . ',id_petugas',
+            'email' => 'required|email|max:100|unique:petugas,email,' . $petugas->id_petugas . ',id_petugas',
+            'password' => 'nullable|string|max:100',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $petugas->update($validated);
+
+        return redirect()->route('petugas.index')->with('success', 'Petugas berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        Petugas::destroy($id);
-        return redirect()->route('petugas.index');
+        $petugas = Petugas::findOrFail($id);
+        $petugas->delete();
+
+        return redirect()->route('petugas.index')->with('success', 'Petugas berhasil dihapus!');
     }
 }

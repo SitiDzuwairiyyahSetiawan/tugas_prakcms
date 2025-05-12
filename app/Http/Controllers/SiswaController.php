@@ -9,7 +9,8 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        return view('siswa.index', ['siswas' => Siswa::all()]);
+        $siswas = Siswa::all();
+        return view('siswa.index', compact('siswas'));
     }
 
     public function create()
@@ -19,28 +20,30 @@ class SiswaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nisn' => 'required|string|max:20',
+        $validated = $request->validate([
+            'nisn' => 'required|string',
             'nama' => 'required|string|max:100',
             'kelas' => 'required|string|max:50',
             'alamat' => 'required|string',
             'nomor_telepon' => 'required|string|max:15',
             'email' => 'required|email|max:100',
         ]);
+    
+        $validated['id_siswa'] = 'SW' . strtoupper(uniqid());
 
-        $siswa = Siswa::create($request->all());
-
-        // Gunakan 'id_siswa' sebagai parameter
-        return redirect()->route('siswa.show', $siswa->id_siswa);
+        try {
+            Siswa::create($validated);
+            return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menambahkan siswa: '.$e->getMessage());
+        }
     }
-
 
     public function show($id)
     {
         $siswa = Siswa::findOrFail($id);
         return view('siswa.show', compact('siswa'));
     }
-
 
     public function edit($id)
     {
@@ -51,14 +54,26 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         $siswa = Siswa::findOrFail($id);
-        $siswa->update($request->all());
 
-        return redirect()->route('siswa.show', $id);
+        $validated = $request->validate([
+            'nisn' => 'required|string',
+            'nama' => 'required|string|max:100',
+            'kelas' => 'required|string|max:50',
+            'alamat' => 'required|string',
+            'nomor_telepon' => 'required|string|max:15',
+            'email' => 'required|email|max:100',
+        ]);
+
+        $siswa->update($validated);
+
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        Siswa::destroy($id);
-        return redirect()->route('siswa.index');
+        $siswa = Siswa::findOrFail($id);
+        $siswa->delete();
+
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil dihapus!');
     }
 }

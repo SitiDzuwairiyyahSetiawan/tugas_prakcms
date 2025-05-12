@@ -13,11 +13,11 @@ Route::get('/', function () {
 
 // Buku Routes
 Route::resource('buku', BukuController::class);
-Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
+Route::resource('buku', BukuController::class)->except(['destroy']);
 
 // Siswa Routes
 Route::resource('siswa', SiswaController::class);
-Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+Route::delete('/siswa/{siswa}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
 Route::get('siswa/{siswa}', [SiswaController::class, 'show'])->name('siswa.show');
 
 // Petugas Routes

@@ -27,7 +27,7 @@ class PeminjamanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'id_siswa' => 'required|exists:siswas,id_siswa',
             'id_petugas' => 'required|exists:petugas,id_petugas',
             'id_buku' => 'required|exists:bukus,id_buku',
@@ -36,9 +36,12 @@ class PeminjamanController extends Controller
             'status_peminjaman' => 'required|string|max:50',
         ]);
 
-        Peminjaman::create($request->all());
+        // Tambahkan ID peminjaman unik
+        $validated['id_peminjaman'] = 'PM' . strtoupper(uniqid());
 
-        return redirect()->route('peminjaman.index');
+        Peminjaman::create($validated);
+
+        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil ditambahkan!');
     }
 
     public function show($id)
@@ -59,7 +62,7 @@ class PeminjamanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'id_siswa' => 'required|exists:siswas,id_siswa',
             'id_petugas' => 'required|exists:petugas,id_petugas',
             'id_buku' => 'required|exists:bukus,id_buku',
@@ -69,14 +72,16 @@ class PeminjamanController extends Controller
         ]);
 
         $peminjaman = Peminjaman::findOrFail($id);
-        $peminjaman->update($request->all());
+        $peminjaman->update($validated);
 
-        return redirect()->route('peminjaman.show', $id);
+        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        Peminjaman::destroy($id);
-        return redirect()->route('peminjaman.index');
+        $peminjaman = Peminjaman::findOrFail($id);
+        $peminjaman->delete();
+
+        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil dihapus!');
     }
 }

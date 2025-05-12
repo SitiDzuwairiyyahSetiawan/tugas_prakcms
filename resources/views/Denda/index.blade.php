@@ -9,14 +9,14 @@
     <br><br>
 
     <ul>
-        @forelse($denda as $item)
+        @forelse($dendas as $denda)
             <li>
-                <a href="{{ route('denda.show', $item->id_denda) }}">
-                    Peminjaman: 
-                    {{ $item->peminjaman->buku->judul_buku }} - 
-                    {{ $item->peminjaman->siswa->nama }}
-                    | Status Pembayaran: {{ $item->status_pembayaran }}
-                </a>
+            <a href="{{ route('denda.show', $denda->id_denda) }}">
+                Peminjaman: 
+                {{ optional($denda->peminjaman?->buku)->judul_buku ?? 'Buku tidak ditemukan' }} - 
+                {{ optional($denda->peminjaman?->siswa)->nama ?? 'Siswa tidak ditemukan' }} |
+                Status Pembayaran: {{ $denda->status_pembayaran }}
+            </a>
             </li>
         @empty
             <p>Tidak ada data denda.</p>

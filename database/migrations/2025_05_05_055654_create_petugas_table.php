@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('petugas', function (Blueprint $table) {
             $table->string('id_petugas', 20)->primary();
             $table->string('nama', 100);
-            $table->string('username', 50)->unique();
-            $table->string('password', 100);
+            $table->string('username', 20)->unique();
+            $table->string('password', 255);
             $table->string('email', 100)->unique();
         });
     }

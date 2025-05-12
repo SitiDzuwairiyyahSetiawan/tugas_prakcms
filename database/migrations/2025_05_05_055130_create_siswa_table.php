@@ -8,8 +8,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('siswas', function (Blueprint $table) {
-            $table->id('id_siswa', 20)->primary();
-            $table->string('nisn', 20);
+            $table->string('id_siswa', 20)->primary();
+            $table->bigInteger('nisn');
             $table->string('nama', 100);
             $table->string('kelas', 50);
             $table->text('alamat');

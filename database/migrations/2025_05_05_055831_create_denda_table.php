@@ -8,11 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('dendas', function (Blueprint $table) {
-            $table->id();
+            $table->string('id_denda', 20)->primary();
+            $table->string('id_peminjaman', 20);
             $table->decimal('jumlah_denda_perhari', 10, 2);
             $table->decimal('total_denda', 10, 2);
             $table->string('status_pembayaran', 50)->default('belum lunas', 'lunas');
             $table->date('tanggal_pembayaran')->nullable();
+
+            $table->foreign('id_peminjaman')->references('id_peminjaman')->on('peminjamans')->onDelete('cascade');
         });
     }
 

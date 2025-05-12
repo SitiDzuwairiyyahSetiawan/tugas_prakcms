@@ -3,26 +3,44 @@
 @section('title', 'Edit Petugas')
 
 @section('content')
-    <h2>Edit Data Petugas</h2>
+<h2>Edit Petugas</h2>
 
-    <form method="POST" action="{{ route('petugas.update', $petugas->id_petugas) }}">
-        @csrf
-        @method('PUT')
+@if ($errors->any())
+    <div style="color:red; margin-bottom: 15px;">
+        <ul style="list-style-type: none; padding-left: 0;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
-        <label>Nama:</label><br>
-        <input type="text" name="nama" value="{{ $petugas->nama }}"><br><br>
+<form method="POST" action="{{ route('petugas.update', $petugas->id_petugas) }}" style="max-width: 500px;">
+    @csrf
+    @method('PUT')
 
-        <label>Username:</label><br>
-        <input type="text" name="username" value="{{ $petugas->username }}"><br><br>
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px;">Nama:</label>
+        <input type="text" name="nama" value="{{ old('nama', $petugas->nama) }}" required style="width: 100%; padding: 8px;">
+    </div>
 
-        <label>Password:</label><br>
-        <input type="text" name="password" value="{{ $petugas->password }}"><br><br>
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px;">Username:</label>
+        <input type="text" name="username" value="{{ old('username', $petugas->username) }}" required style="width: 100%; padding: 8px;">
+    </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" value="{{ $petugas->email }}"><br><br>
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px;">Password:</label>
+        <input type="password" name="password" style="width: 100%; padding: 8px;" placeholder="Kosongkan jika tidak ingin mengubah">
+    </div>
 
-        <button type="submit">Update</button>
-    </form>
+    <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px;">Email:</label>
+        <input type="email" name="email" value="{{ old('email', $petugas->email) }}" required style="width: 100%; padding: 8px;">
+    </div>
 
-    <a href="{{ route('petugas.index') }}" style="margin-top: 20px; display:inline-block;">← Kembali</a>
+    <button type="submit" style="padding: 10px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Update</button>
+</form>
+
+<a href="{{ route('petugas.index') }}" style="display: inline-block; margin-top: 20px; color: #3490dc; text-decoration: none;">← Kembali</a>
 @endsection

@@ -25,10 +25,7 @@ class Buku extends Model
         'kategori_buku',
         'jumlah_buku_tersedia'
     ];
-
-    // Relasi dengan Peminjaman
-    public function peminjamans()
-    {
-        return $this->hasMany(Peminjaman::class);
-    }
+    protected $casts = [
+        'isbn' => 'string',
+    ];
 }
