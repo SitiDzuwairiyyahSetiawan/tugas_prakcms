@@ -9,15 +9,12 @@ class Denda extends Model
 {
     use HasFactory;
 
-    // Menentukan nama tabel yang digunakan
     protected $table = 'dendas';
 
-    // Tentukan primary key jika tidak menggunakan id secara otomatis
     protected $primaryKey = 'id_denda';
     public $incrementing = true;
-    public $timestamps = false; // jika tabel tidak menggunakan timestamps (created_at, updated_at)
+    public $timestamps = false;
 
-    // Tentukan kolom-kolom yang dapat diisi
     protected $fillable = [
         'id_peminjaman',
         'jumlah_denda_perhari',
@@ -26,7 +23,6 @@ class Denda extends Model
         'tanggal_pembayaran',
     ];
 
-    // Relasi dengan model Peminjaman
     public function peminjaman()
     {
         return $this->belongsTo(Peminjaman::class, 'id_peminjaman');
