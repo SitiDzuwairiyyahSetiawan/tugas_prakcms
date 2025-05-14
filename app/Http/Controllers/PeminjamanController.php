@@ -36,7 +36,6 @@ class PeminjamanController extends Controller
             'status_peminjaman' => 'required|string|max:50',
         ]);
 
-        // Tambahkan ID peminjaman unik
         $validated['id_peminjaman'] = 'PM' . strtoupper(uniqid());
 
         Peminjaman::create($validated);

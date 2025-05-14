@@ -27,8 +27,7 @@ class PetugasController extends Controller
             'email' => 'required|email|max:100|unique:petugas,email',
         ]);
 
-        $validated['password'] = bcrypt($validated['password']);  // Hash password
-
+        $validated['password'] = bcrypt($validated['password']);
         $validated['id_petugas'] = 'PT' . strtoupper(uniqid());
 
         Petugas::create($validated);
