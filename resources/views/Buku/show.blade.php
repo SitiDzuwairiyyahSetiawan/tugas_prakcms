@@ -3,28 +3,69 @@
 @section('title', 'Detail Buku')
 
 @section('content')
-<h2>Detail Buku</h2>
+<div class="container">
+    <h2>Detail Buku</h2>
 
-<div style="margin-bottom: 20px;">
-    <p style="margin-bottom: 8px;"><strong>ID Buku:</strong> {{ $buku->id_buku }}</p>
-    <p style="margin-bottom: 8px;"><strong>Judul:</strong> {{ $buku->judul_buku }}</p>
-    <p style="margin-bottom: 8px;"><strong>Penulis:</strong> {{ $buku->penulis }}</p>
-    <p style="margin-bottom: 8px;"><strong>Penerbit:</strong> {{ $buku->penerbit }}</p>
-    <p style="margin-bottom: 8px;"><strong>Tahun Terbit:</strong> {{ \Carbon\Carbon::parse($buku->tahun_terbit)->format('Y-m-d') }}</p>
-    <p style="margin-bottom: 8px;"><strong>ISBN:</strong> {{ $buku->isbn }}</p>
-    <p style="margin-bottom: 8px;"><strong>Kategori:</strong> {{ $buku->kategori_buku }}</p>
-    <p style="margin-bottom: 8px;"><strong>Jumlah Buku Tersedia:</strong> {{ $buku->jumlah_buku_tersedia }}</p>
-</div>
+    <div class="card">
+        <div class="card-body">
+            <div class="detail-item">
+                <span class="detail-label">ID Buku:</span>
+                <div class="detail-value">{{ $buku->id_buku }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Judul:</span>
+                <div class="detail-value">{{ $buku->judul_buku }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Penulis:</span>
+                <div class="detail-value">{{ $buku->penulis }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Penerbit:</span>
+                <div class="detail-value">{{ $buku->penerbit }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Tahun Terbit:</span>
+                <div class="detail-value">{{ \Carbon\Carbon::parse($buku->tahun_terbit)->format('Y-m-d') }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">ISBN:</span>
+                <div class="detail-value">{{ $buku->isbn }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Kategori:</span>
+                <div class="detail-value">{{ $buku->kategori_buku }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Jumlah Tersedia:</span>
+                <div class="detail-value">{{ $buku->jumlah_buku_tersedia }}</div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <a href="{{ route('buku.edit', $buku->id_buku) }}" style="padding: 8px 15px; background-color: #38c172; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;">Edit</a>
-    
-    <form action="{{ route('buku.destroy', $buku->id_buku) }}" method="POST" style="display: inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" style="padding: 8px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="return confirm('Yakin hapus buku ini?')">Hapus</button>
-    </form>
-    
-    <a href="{{ route('buku.index') }}" style="padding: 8px 15px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">← Kembali ke daftar</a>
+    <div class="mt-3">
+        <a href="{{ route('buku.edit', $buku->id_buku) }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        
+        <form action="{{ route('buku.destroy', $buku->id_buku) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin hapus buku ini?')">
+                <i class="fas fa-trash"></i> Hapus
+            </button>
+        </form>
+        
+        <a href="{{ route('buku.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </div>
 </div>
 @endsection

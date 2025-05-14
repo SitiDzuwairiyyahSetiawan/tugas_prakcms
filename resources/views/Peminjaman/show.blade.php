@@ -3,27 +3,72 @@
 @section('title', 'Detail Peminjaman')
 
 @section('content')
-<h2>Detail Peminjaman</h2>
+<div class="container">
+    <h2>Detail Peminjaman</h2>
 
-<div style="margin-bottom: 20px;">
-    <p style="margin-bottom: 8px;"><strong>ID Peminjaman:</strong> {{ $peminjaman->id_peminjaman }}</p>
-    <p style="margin-bottom: 8px;"><strong>Buku:</strong> {{ $peminjaman->buku->judul_buku }}</p>
-    <p style="margin-bottom: 8px;"><strong>Siswa:</strong> {{ $peminjaman->siswa->nama }}</p>
-    <p style="margin-bottom: 8px;"><strong>Petugas:</strong> {{ $peminjaman->petugas->nama }}</p>
-    <p style="margin-bottom: 8px;"><strong>Tanggal Peminjaman:</strong> {{ $peminjaman->tanggal_peminjaman }}</p>
-    <p style="margin-bottom: 8px;"><strong>Tanggal Pengembalian:</strong> {{ $peminjaman->tanggal_pengembalian }}</p>
-    <p style="margin-bottom: 8px;"><strong>Status:</strong> {{ $peminjaman->status_peminjaman }}</p>
-</div>
+    <div class="card">
+        <div class="card-body">
+            <div class="detail-item">
+                <span class="detail-label">ID Peminjaman:</span>
+                <div class="detail-value">{{ $peminjaman->id_peminjaman }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Buku:</span>
+                <div class="detail-value">{{ $peminjaman->buku->judul_buku }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Siswa:</span>
+                <div class="detail-value">{{ $peminjaman->siswa->nama }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Petugas:</span>
+                <div class="detail-value">{{ $peminjaman->petugas->nama }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Tanggal Peminjaman:</span>
+                <div class="detail-value">{{ $peminjaman->tanggal_peminjaman }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Tanggal Pengembalian:</span>
+                <div class="detail-value">{{ $peminjaman->tanggal_pengembalian }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Status:</span>
+                <div class="detail-value">
+                    <span class="badge 
+                        @if($peminjaman->status_peminjaman == 'Dipinjam') bg-primary
+                        @elseif($peminjaman->status_peminjaman == 'Dikembalikan') bg-success
+                        @else bg-danger
+                        @endif">
+                        {{ $peminjaman->status_peminjaman }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <a href="{{ route('peminjaman.edit', $peminjaman->id_peminjaman) }}" style="padding: 8px 15px; background-color: #38c172; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;">Edit</a>
-    
-    <form action="{{ route('peminjaman.destroy', $peminjaman->id_peminjaman) }}" method="POST" style="display: inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" style="padding: 8px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="return confirm('Yakin hapus peminjaman ini?')">Hapus</button>
-    </form>
-    
-    <a href="{{ route('peminjaman.index') }}" style="padding: 8px 15px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">← Kembali ke daftar</a>
+    <div class="mt-3">
+        <a href="{{ route('peminjaman.edit', $peminjaman->id_peminjaman) }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        
+        <form action="{{ route('peminjaman.destroy', $peminjaman->id_peminjaman) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin hapus peminjaman ini?')">
+                <i class="fas fa-trash"></i> Hapus
+            </button>
+        </form>
+        
+        <a href="{{ route('peminjaman.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </div>
 </div>
 @endsection

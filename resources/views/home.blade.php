@@ -10,7 +10,7 @@
             <div class="p-4 bg-light rounded-3">
                 <div class="container-fluid py-3">
                     <h1 class="display-5 fw-bold">Selamat Datang di Sistem Perpustakaan</h1>
-                    <p class="col-md-8 fs-4">Sistem manajemen perpustakaan digital untuk sekolah</p>
+                    <p class="col-md-8 fs-4">Sistem Manajemen Perpustakaan Digital SMA Negeri 1 Semin</p>
                 </div>
             </div>
         </div>
@@ -19,49 +19,49 @@
     <!-- Quick Links -->
     <div class="row mb-4">
         <div class="col-md-2 mb-3">
-            <a href="/buku" class="card text-decoration-none text-dark h-100">
+            <a href="/buku" class="card text-decoration-none quick-link-card h-100">
                 <div class="card-body text-center">
-                    <i class="fas fa-book fa-3x mb-3 text-primary"></i>
+                    <i class="fas fa-book quick-link-icon text-primary"></i>
                     <h5>Daftar Buku</h5>
                 </div>
             </a>
         </div>
         <div class="col-md-2 mb-3">
-            <a href="/siswa" class="card text-decoration-none text-dark h-100">
+            <a href="/siswa" class="card text-decoration-none quick-link-card h-100">
                 <div class="card-body text-center">
-                    <i class="fas fa-users fa-3x mb-3 text-success"></i>
+                    <i class="fas fa-users quick-link-icon text-success"></i>
                     <h5>Data Siswa</h5>
                 </div>
             </a>
         </div>
         <div class="col-md-2 mb-3">
-            <a href="/petugas" class="card text-decoration-none text-dark h-100">
+            <a href="/petugas" class="card text-decoration-none quick-link-card h-100">
                 <div class="card-body text-center">
-                    <i class="fas fa-user-shield fa-3x mb-3 text-info"></i>
+                    <i class="fas fa-user-shield quick-link-icon text-info"></i>
                     <h5>Data Petugas</h5>
                 </div>
             </a>
         </div>
         <div class="col-md-2 mb-3">
-            <a href="/peminjaman" class="card text-decoration-none text-dark h-100">
+            <a href="/peminjaman" class="card text-decoration-none quick-link-card h-100">
                 <div class="card-body text-center">
-                    <i class="fas fa-clipboard-list fa-3x mb-3 text-warning"></i>
+                    <i class="fas fa-clipboard-list quick-link-icon text-warning"></i>
                     <h5>Peminjaman</h5>
                 </div>
             </a>
         </div>
         <div class="col-md-2 mb-3">
-            <a href="/denda" class="card text-decoration-none text-dark h-100">
+            <a href="/denda" class="card text-decoration-none quick-link-card h-100">
                 <div class="card-body text-center">
-                    <i class="fas fa-exclamation-triangle fa-3x mb-3 text-danger"></i>
+                    <i class="fas fa-exclamation-triangle quick-link-icon text-danger"></i>
                     <h5>Denda</h5>
                 </div>
             </a>
         </div>
         <div class="col-md-2 mb-3">
-            <a href="/peminjaman/create" class="card text-decoration-none text-dark h-100">
+            <a href="/peminjaman/create" class="card text-decoration-none quick-link-card h-100">
                 <div class="card-body text-center">
-                    <i class="fas fa-plus-circle fa-3x mb-3 text-secondary"></i>
+                    <i class="fas fa-plus-circle quick-link-icon text-secondary"></i>
                     <h5>Transaksi Baru</h5>
                 </div>
             </a>

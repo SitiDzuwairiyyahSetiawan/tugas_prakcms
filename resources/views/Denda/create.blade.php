@@ -3,58 +3,63 @@
 @section('title', 'Tambah Denda')
 
 @section('content')
-<h2>Tambah Denda Baru</h2>
+<div class="container">
+    <h2>Tambah Denda Baru</h2>
 
-@if ($errors->any())
-    <div style="color:red; margin-bottom: 15px;">
-        <ul style="list-style-type: none; padding-left: 0;">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-<form method="POST" action="{{ route('denda.store') }}" style="max-width: 500px;">
-    @csrf
-    
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Peminjaman:</label>
-        <select name="id_peminjaman" required style="width: 100%; padding: 8px;">
-            <option value="">Pilih Peminjaman</option>
-            @foreach($peminjamans as $peminjaman)
-                <option value="{{ $peminjaman->id_peminjaman }}">
-                    {{ $peminjaman->buku->judul_buku }} - {{ $peminjaman->siswa->nama }}
-                </option>
-            @endforeach
-        </select>
-    </div>
+    <form method="POST" action="{{ route('denda.store') }}" class="form-container">
+        @csrf
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Jumlah Denda Per Hari:</label>
-        <input type="number" name="jumlah_denda_perhari" value="{{ old('jumlah_denda_perhari') }}" required style="width: 100%; padding: 8px;">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Peminjaman:</label>
+            <select name="id_peminjaman" class="form-control" required>
+                <option value="">Pilih Peminjaman</option>
+                @foreach($peminjamans as $peminjaman)
+                    <option value="{{ $peminjaman->id_peminjaman }}" {{ old('id_peminjaman') == $peminjaman->id_peminjaman ? 'selected' : '' }}>
+                        {{ $peminjaman->buku->judul_buku }} - {{ $peminjaman->siswa->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Total Denda:</label>
-        <input type="number" name="total_denda" value="{{ old('total_denda') }}" required style="width: 100%; padding: 8px;">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Jumlah Denda Per Hari:</label>
+            <input type="number" name="jumlah_denda_perhari" value="{{ old('jumlah_denda_perhari') }}" class="form-control" required>
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Status Pembayaran:</label>
-        <select name="status_pembayaran" required style="width: 100%; padding: 8px;">
-            <option value="Belum Dibayar">Belum Dibayar</option>
-            <option value="Sudah Dibayar">Sudah Dibayar</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label class="form-label">Total Denda:</label>
+            <input type="number" name="total_denda" value="{{ old('total_denda') }}" class="form-control" required>
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Tanggal Pembayaran:</label>
-        <input type="date" name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran') }}" style="width: 100%; padding: 8px;">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Status Pembayaran:</label>
+            <select name="status_pembayaran" class="form-control" required>
+                <option value="Belum Dibayar" {{ old('status_pembayaran') == 'Belum Dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
+                <option value="Sudah Dibayar" {{ old('status_pembayaran') == 'Sudah Dibayar' ? 'selected' : '' }}>Sudah Dibayar</option>
+            </select>
+        </div>
 
-    <button type="submit" style="padding: 10px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Simpan</button>
-</form>
+        <div class="form-group">
+            <label class="form-label">Tanggal Pembayaran:</label>
+            <input type="date" name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran') }}" class="form-control">
+        </div>
 
-<a href="{{ route('denda.index') }}" style="display: inline-block; margin-top: 20px; color: #3490dc; text-decoration: none;">← Kembali ke daftar denda</a>
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Simpan
+        </button>
+        <a href="{{ route('denda.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </form>
+</div>
 @endsection

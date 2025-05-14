@@ -3,40 +3,52 @@
 @section('title', 'Daftar Siswa')
 
 @section('content')
-<h2>Daftar Siswa</h2>
+<div class="container">
+    <h2>Daftar Siswa</h2>
 
-<a href="{{ route('siswa.create') }}" style="display: inline-block; margin-bottom: 20px; padding: 8px 15px; background-color: #3490dc; color: white; text-decoration: none; border-radius: 4px;">+ Tambah Siswa</a>
+    <a href="{{ route('siswa.create') }}" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> Tambah Siswa
+    </a>
 
-<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-    <thead>
-        <tr style="background-color: #f8f9fa;">
-            <th style="padding: 10px; text-align: left;">ID</th>
-            <th style="padding: 10px; text-align: left;">NISN</th>
-            <th style="padding: 10px; text-align: left;">Nama</th>
-            <th style="padding: 10px; text-align: left;">Kelas</th>
-            <th style="padding: 10px; text-align: left;">Email</th>
-            <th style="padding: 10px; text-align: left;">Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($siswas as $item)
+    <table class="data-table">
+        <thead>
             <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $item->id_siswa }}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $item->nisn }}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $item->nama }}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $item->kelas }}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $item->email }}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                    <a href="{{ route('siswa.show', $item->id_siswa) }}" style="color: #3490dc; text-decoration: none; margin-right: 10px;">Lihat</a>
-                    <a href="{{ route('siswa.edit', $item->id_siswa) }}" style="color: #38c172; text-decoration: none; margin-right: 10px;">Edit</a>
-                    <form action="{{ route('siswa.destroy', $item->id_siswa) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="color: #dc3545; background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline;" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>NISN</th>
+                <th>Nama</th>
+                <th>Kelas</th>
+                <th>Email</th>
+                <th>Telepon</th>
+                <th>Aksi</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($siswas as $item)
+                <tr>
+                    <td>{{ $item->id_siswa }}</td>
+                    <td>{{ $item->nisn }}</td>
+                    <td>{{ $item->nama }}</td>
+                    <td>{{ $item->kelas }}</td>
+                    <td>{{ $item->email }}</td>
+                    <td>{{ $item->nomor_telepon }}</td>
+                    <td class="action-buttons">
+                        <a href="{{ route('siswa.show', $item->id_siswa) }}" class="btn btn-outline btn-sm">
+                            <i class="fas fa-eye"></i> Lihat
+                        </a>
+                        <a href="{{ route('siswa.edit', $item->id_siswa) }}" class="btn btn-outline btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form action="{{ route('siswa.destroy', $item->id_siswa) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 @endsection

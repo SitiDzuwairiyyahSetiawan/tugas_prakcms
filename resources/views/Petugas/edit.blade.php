@@ -3,44 +3,49 @@
 @section('title', 'Edit Petugas')
 
 @section('content')
-<h2>Edit Petugas</h2>
+<div class="container">
+    <h2>Edit Petugas</h2>
 
-@if ($errors->any())
-    <div style="color:red; margin-bottom: 15px;">
-        <ul style="list-style-type: none; padding-left: 0;">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-<form method="POST" action="{{ route('petugas.update', $petugas->id_petugas) }}" style="max-width: 500px;">
-    @csrf
-    @method('PUT')
+    <form method="POST" action="{{ route('petugas.update', $petugas->id_petugas) }}" class="form-container">
+        @csrf
+        @method('PUT')
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Nama:</label>
-        <input type="text" name="nama" value="{{ old('nama', $petugas->nama) }}" required style="width: 100%; padding: 8px;">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Nama:</label>
+            <input type="text" name="nama" value="{{ old('nama', $petugas->nama) }}" class="form-control" required>
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Username:</label>
-        <input type="text" name="username" value="{{ old('username', $petugas->username) }}" required style="width: 100%; padding: 8px;">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Username:</label>
+            <input type="text" name="username" value="{{ old('username', $petugas->username) }}" class="form-control" required>
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Password:</label>
-        <input type="password" name="password" style="width: 100%; padding: 8px;" placeholder="Kosongkan jika tidak ingin mengubah">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Password:</label>
+            <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah">
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px;">Email:</label>
-        <input type="email" name="email" value="{{ old('email', $petugas->email) }}" required style="width: 100%; padding: 8px;">
-    </div>
+        <div class="form-group">
+            <label class="form-label">Email:</label>
+            <input type="email" name="email" value="{{ old('email', $petugas->email) }}" class="form-control" required>
+        </div>
 
-    <button type="submit" style="padding: 10px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Update</button>
-</form>
-
-<a href="{{ route('petugas.index') }}" style="display: inline-block; margin-top: 20px; color: #3490dc; text-decoration: none;">← Kembali</a>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Update
+        </button>
+        <a href="{{ route('petugas.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </form>
+</div>
 @endsection

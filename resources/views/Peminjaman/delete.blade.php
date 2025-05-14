@@ -3,24 +3,43 @@
 @section('title', 'Hapus Peminjaman')
 
 @section('content')
-<h2>Konfirmasi Hapus Peminjaman</h2>
+<div class="container">
+    <h2>Konfirmasi Hapus Peminjaman</h2>
 
-<p style="margin-bottom: 20px;">Apakah kamu yakin ingin menghapus peminjaman berikut ini?</p>
+    <div class="confirmation-message">
+        Apakah kamu yakin ingin menghapus peminjaman berikut ini?
+    </div>
 
-<ul style="list-style-type: none; padding-left: 0; margin-bottom: 20px;">
-    <li style="margin-bottom: 8px;"><strong>ID Peminjaman:</strong> {{ $peminjaman->id_peminjaman }}</li>
-    <li style="margin-bottom: 8px;"><strong>Buku:</strong> {{ $peminjaman->buku->judul_buku }}</li>
-    <li style="margin-bottom: 8px;"><strong>Siswa:</strong> {{ $peminjaman->siswa->nama }}</li>
-    <li style="margin-bottom: 8px;"><strong>Petugas:</strong> {{ $peminjaman->petugas->nama }}</li>
-    <li style="margin-bottom: 8px;"><strong>Tanggal Peminjaman:</strong> {{ $peminjaman->tanggal_peminjaman }}</li>
-    <li style="margin-bottom: 8px;"><strong>Tanggal Pengembalian:</strong> {{ $peminjaman->tanggal_pengembalian }}</li>
-    <li style="margin-bottom: 8px;"><strong>Status:</strong> {{ $peminjaman->status_peminjaman }}</li>
-</ul>
+    <div class="card confirmation-details">
+        <div class="card-body">
+            <div class="detail-item">
+                <span class="detail-label">ID Peminjaman:</span>
+                <div class="detail-value">{{ $peminjaman->id_peminjaman }}</div>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Buku:</span>
+                <div class="detail-value">{{ $peminjaman->buku->judul_buku }}</div>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Siswa:</span>
+                <div class="detail-value">{{ $peminjaman->siswa->nama }}</div>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Status:</span>
+                <div class="detail-value">{{ $peminjaman->status_peminjaman }}</div>
+            </div>
+        </div>
+    </div>
 
-<form action="{{ route('peminjaman.destroy', $peminjaman->id_peminjaman) }}" method="POST" style="display: inline-block;">
-    @csrf
-    @method('DELETE')
-    <button type="submit" style="padding: 8px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Ya, Hapus</button>
-    <a href="{{ route('peminjaman.index') }}" style="padding: 8px 15px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">Batal</a>
-</form>
+    <form action="{{ route('peminjaman.destroy', $peminjaman->id_peminjaman) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Ya, Hapus
+        </button>
+        <a href="{{ route('peminjaman.index') }}" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Batal
+        </a>
+    </form>
+</div>
 @endsection

@@ -3,27 +3,64 @@
 @section('title', 'Detail Siswa')
 
 @section('content')
-<h2>Detail Siswa</h2>
+<div class="container">
+    <h2>Detail Siswa</h2>
 
-<div style="margin-bottom: 20px;">
-    <p style="margin-bottom: 8px;"><strong>ID Siswa:</strong> {{ $siswa->id_siswa }}</p>
-    <p style="margin-bottom: 8px;"><strong>NISN:</strong> {{ $siswa->nisn }}</p>
-    <p style="margin-bottom: 8px;"><strong>Nama:</strong> {{ $siswa->nama }}</p>
-    <p style="margin-bottom: 8px;"><strong>Kelas:</strong> {{ $siswa->kelas }}</p>
-    <p style="margin-bottom: 8px;"><strong>Alamat:</strong> {{ $siswa->alamat }}</p>
-    <p style="margin-bottom: 8px;"><strong>Nomor Telepon:</strong> {{ $siswa->nomor_telepon }}</p>
-    <p style="margin-bottom: 8px;"><strong>Email:</strong> {{ $siswa->email }}</p>
-</div>
+    <div class="card">
+        <div class="card-body">
+            <div class="detail-item">
+                <span class="detail-label">ID Siswa:</span>
+                <div class="detail-value">{{ $siswa->id_siswa }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">NISN:</span>
+                <div class="detail-value">{{ $siswa->nisn }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Nama:</span>
+                <div class="detail-value">{{ $siswa->nama }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Kelas:</span>
+                <div class="detail-value">{{ $siswa->kelas }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Alamat:</span>
+                <div class="detail-value">{{ $siswa->alamat }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Nomor Telepon:</span>
+                <div class="detail-value">{{ $siswa->nomor_telepon }}</div>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Email:</span>
+                <div class="detail-value">{{ $siswa->email }}</div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <a href="{{ route('siswa.edit', $siswa->id_siswa) }}" style="padding: 8px 15px; background-color: #38c172; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;">Edit</a>
-    
-    <form action="{{ route('siswa.destroy', $siswa->id_siswa) }}" method="POST" style="display: inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" style="padding: 8px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="return confirm('Yakin hapus siswa ini?')">Hapus</button>
-    </form>
-    
-    <a href="{{ route('siswa.index') }}" style="padding: 8px 15px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">← Kembali ke daftar</a>
+    <div class="mt-3">
+        <a href="{{ route('siswa.edit', $siswa->id_siswa) }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        
+        <form action="{{ route('siswa.destroy', $siswa->id_siswa) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin hapus siswa ini?')">
+                <i class="fas fa-trash"></i> Hapus
+            </button>
+        </form>
+        
+        <a href="{{ route('siswa.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </div>
 </div>
 @endsection

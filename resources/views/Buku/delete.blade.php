@@ -3,23 +3,43 @@
 @section('title', 'Hapus Buku')
 
 @section('content')
-<h2>Konfirmasi Hapus Buku</h2>
+<div class="container">
+    <h2>Konfirmasi Hapus Buku</h2>
 
-<p style="margin-bottom: 20px;">Apakah kamu yakin ingin menghapus buku berikut ini?</p>
+    <div class="confirmation-message">
+        Apakah kamu yakin ingin menghapus buku berikut ini?
+    </div>
 
-<ul style="list-style-type: none; padding-left: 0; margin-bottom: 20px;">
-    <li style="margin-bottom: 8px;"><strong>ID Buku:</strong> {{ $buku->id_buku }}</li>
-    <li style="margin-bottom: 8px;"><strong>Judul:</strong> {{ $buku->judul_buku }}</li>
-    <li style="margin-bottom: 8px;"><strong>Penulis:</strong> {{ $buku->penulis }}</li>
-    <li style="margin-bottom: 8px;"><strong>Penerbit:</strong> {{ $buku->penerbit }}</li>
-    <li style="margin-bottom: 8px;"><strong>Tahun Terbit:</strong> {{ \Carbon\Carbon::parse($buku->tahun_terbit)->format('Y') }}</li>
-    <li style="margin-bottom: 8px;"><strong>Kategori:</strong> {{ $buku->kategori_buku }}</li>
-</ul>
+    <div class="card confirmation-details">
+        <div class="card-body">
+            <div class="detail-item">
+                <span class="detail-label">ID Buku:</span>
+                <div class="detail-value">{{ $buku->id_buku }}</div>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Judul:</span>
+                <div class="detail-value">{{ $buku->judul_buku }}</div>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Penulis:</span>
+                <div class="detail-value">{{ $buku->penulis }}</div>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Penerbit:</span>
+                <div class="detail-value">{{ $buku->penerbit }}</div>
+            </div>
+        </div>
+    </div>
 
-<form action="{{ route('buku.destroy', $buku->id_buku) }}" method="POST" style="display: inline-block;">
-    @csrf
-    @method('DELETE')
-    <button type="submit" style="padding: 8px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Ya, Hapus</button>
-    <a href="{{ route('buku.index') }}" style="padding: 8px 15px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">Batal</a>
-</form>
+    <form action="{{ route('buku.destroy', $buku->id_buku) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Ya, Hapus
+        </button>
+        <a href="{{ route('buku.index') }}" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Batal
+        </a>
+    </form>
+</div>
 @endsection

@@ -3,37 +3,63 @@
 @section('title', 'Edit Denda')
 
 @section('content')
+<div class="container">
     <h2>Edit Denda</h2>
 
-    <form method="POST" action="{{ route('denda.update', $denda->id_denda) }}">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('denda.update', $denda->id_denda) }}" class="form-container">
         @csrf
         @method('PUT')
 
-        <label for="id_peminjaman">Peminjaman:</label><br>
-        <select name="id_peminjaman" required>
-            @foreach($peminjamans as $item)
-                <option value="{{ $item->id_peminjaman }}" {{ $item->id_peminjaman == $denda->id_peminjaman ? 'selected' : '' }}>
-                </option>
-            @endforeach
-        </select><br><br>
+        <div class="form-group">
+            <label class="form-label">Peminjaman:</label>
+            <select name="id_peminjaman" class="form-control" required>
+                @foreach($peminjamans as $peminjaman)
+                    <option value="{{ $peminjaman->id_peminjaman }}" {{ $peminjaman->id_peminjaman == $denda->id_peminjaman ? 'selected' : '' }}>
+                        {{ $peminjaman->buku->judul_buku }} - {{ $peminjaman->siswa->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-        <label>Jumlah Denda Per Hari:</label><br>
-        <input type="number" name="jumlah_denda_perhari" value="{{ $denda->jumlah_denda_perhari }}" required><br><br>
+        <div class="form-group">
+            <label class="form-label">Jumlah Denda Per Hari:</label>
+            <input type="number" name="jumlah_denda_perhari" value="{{ old('jumlah_denda_perhari', $denda->jumlah_denda_perhari) }}" class="form-control" required>
+        </div>
 
-        <label>Total Denda:</label><br>
-        <input type="number" name="total_denda" value="{{ $denda->total_denda }}" required><br><br>
+        <div class="form-group">
+            <label class="form-label">Total Denda:</label>
+            <input type="number" name="total_denda" value="{{ old('total_denda', $denda->total_denda) }}" class="form-control" required>
+        </div>
 
-        <label>Status Pembayaran:</label><br>
-        <select name="status_pembayaran" required>
-            <option value="Belum Dibayar" {{ $denda->status_pembayaran == 'Belum Dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
-            <option value="Sudah Dibayar" {{ $denda->status_pembayaran == 'Sudah Dibayar' ? 'selected' : '' }}>Sudah Dibayar</option>
-        </select><br><br>
+        <div class="form-group">
+            <label class="form-label">Status Pembayaran:</label>
+            <select name="status_pembayaran" class="form-control" required>
+                <option value="Belum Dibayar" {{ $denda->status_pembayaran == 'Belum Dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
+                <option value="Sudah Dibayar" {{ $denda->status_pembayaran == 'Sudah Dibayar' ? 'selected' : '' }}>Sudah Dibayar</option>
+            </select>
+        </div>
 
-        <label>Tanggal Pembayaran:</label><br>
-        <input type="date" name="tanggal_pembayaran" value="{{ $denda->tanggal_pembayaran }}"><br><br>
+        <div class="form-group">
+            <label class="form-label">Tanggal Pembayaran:</label>
+            <input type="date" name="tanggal_pembayaran" value="{{ old('tanggal_pembayaran', $denda->tanggal_pembayaran) }}" class="form-control">
+        </div>
 
-        <button type="submit">Update Denda</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Update
+        </button>
+        <a href="{{ route('denda.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
     </form>
-
-    <a href="{{ route('denda.index') }}" style="margin-top: 20px; display:inline-block;">← Kembali ke daftar</a>
+</div>
 @endsection
