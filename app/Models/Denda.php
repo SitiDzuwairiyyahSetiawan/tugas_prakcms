@@ -12,7 +12,7 @@ class Denda extends Model
     protected $table = 'dendas';
 
     protected $primaryKey = 'id_denda';
-    public $incrementing = true;
+    public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
