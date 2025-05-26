@@ -34,6 +34,21 @@ class PeminjamanController extends Controller
             'tanggal_peminjaman' => 'required|date',
             'tanggal_pengembalian' => 'required|date|after_or_equal:tanggal_peminjaman',
             'status_peminjaman' => 'required|string|max:50',
+        ], [
+            'id_siswa.required' => 'Siswa wajib dipilih.',
+            'id_siswa.exists' => 'Siswa tidak ditemukan.',
+            'id_petugas.required' => 'Petugas wajib dipilih.',
+            'id_petugas.exists' => 'Petugas tidak ditemukan.',
+            'id_buku.required' => 'Buku wajib dipilih.',
+            'id_buku.exists' => 'Buku tidak ditemukan.',
+            'tanggal_peminjaman.required' => 'Tanggal peminjaman wajib diisi.',
+            'tanggal_peminjaman.date' => 'Tanggal peminjaman harus berupa tanggal yang valid.',
+            'tanggal_pengembalian.required' => 'Tanggal pengembalian wajib diisi.',
+            'tanggal_pengembalian.date' => 'Tanggal pengembalian harus berupa tanggal yang valid.',
+            'tanggal_pengembalian.after_or_equal' => 'Tanggal pengembalian tidak boleh sebelum tanggal peminjaman.',
+            'status_peminjaman.required' => 'Status peminjaman wajib diisi.',
+            'status_peminjaman.string' => 'Status peminjaman harus berupa teks.',
+            'status_peminjaman.max' => 'Status peminjaman maksimal 50 karakter.',
         ]);
 
         $validated['id_peminjaman'] = 'PM' . strtoupper(uniqid());
@@ -68,6 +83,21 @@ class PeminjamanController extends Controller
             'tanggal_peminjaman' => 'required|date',
             'tanggal_pengembalian' => 'required|date|after_or_equal:tanggal_peminjaman',
             'status_peminjaman' => 'required|string|max:50',
+        ], [
+            'id_siswa.required' => 'Siswa wajib dipilih.',
+            'id_siswa.exists' => 'Siswa tidak ditemukan.',
+            'id_petugas.required' => 'Petugas wajib dipilih.',
+            'id_petugas.exists' => 'Petugas tidak ditemukan.',
+            'id_buku.required' => 'Buku wajib dipilih.',
+            'id_buku.exists' => 'Buku tidak ditemukan.',
+            'tanggal_peminjaman.required' => 'Tanggal peminjaman wajib diisi.',
+            'tanggal_peminjaman.date' => 'Tanggal peminjaman harus berupa tanggal yang valid.',
+            'tanggal_pengembalian.required' => 'Tanggal pengembalian wajib diisi.',
+            'tanggal_pengembalian.date' => 'Tanggal pengembalian harus berupa tanggal yang valid.',
+            'tanggal_pengembalian.after_or_equal' => 'Tanggal pengembalian tidak boleh sebelum tanggal peminjaman.',
+            'status_peminjaman.required' => 'Status peminjaman wajib diisi.',
+            'status_peminjaman.string' => 'Status peminjaman harus berupa teks.',
+            'status_peminjaman.max' => 'Status peminjaman maksimal 50 karakter.',
         ]);
 
         $peminjaman = Peminjaman::findOrFail($id);

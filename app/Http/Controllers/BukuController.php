@@ -25,9 +25,22 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer|min:1000|max:' . date('Y'),
-            'isbn' => 'required|string|size:13',
+            'isbn' => 'required|digits:13',
             'kategori_buku' => 'required|string|max:255',
             'jumlah_buku_tersedia' => 'required|integer|min:1',
+        ], [
+            'judul_buku.required' => 'Judul buku wajib diisi.',
+            'penulis.required' => 'Penulis wajib diisi.',
+            'penerbit.required' => 'Penerbit wajib diisi.',
+            'tahun_terbit.required' => 'Tahun terbit wajib diisi.',
+            'tahun_terbit.digits' => 'Tahun terbit harus 4 digit.',
+            'tahun_terbit.max' => 'Tahun terbit tidak boleh melebihi tahun saat ini.',
+            'isbn.required' => 'ISBN wajib diisi.',
+            'isbn.digits' => 'ISBN harus terdiri dari 13 digit angka.',
+            'kategori_buku.required' => 'Kategori buku wajib diisi.',
+            'jumlah_buku_tersedia.required' => 'Jumlah buku wajib diisi.',
+            'jumlah_buku_tersedia.integer' => 'Jumlah buku harus berupa angka.',
+            'jumlah_buku_tersedia.min' => 'Jumlah buku minimal 1.',
         ]);
 
         $validated['id_buku'] = 'BK' . strtoupper(uniqid());
@@ -52,9 +65,21 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
             'tahun_terbit' => 'required|digits:4|integer|min:1000|max:' . date('Y'),
-            'isbn' => 'required|string|size:13',
+            'isbn' => 'required|digits:13',
             'kategori_buku' => 'required|string|max:255',
             'jumlah_buku_tersedia' => 'required|integer|min:1',
+        ], [
+            'judul_buku.required' => 'Judul buku wajib diisi.',
+            'penulis.required' => 'Penulis wajib diisi.',
+            'penerbit.required' => 'Penerbit wajib diisi.',
+            'tahun_terbit.required' => 'Tahun terbit wajib diisi.',
+            'tahun_terbit.digits' => 'Tahun terbit harus 4 digit.',
+            'isbn.required' => 'ISBN wajib diisi.',
+            'isbn.digits' => 'ISBN harus terdiri dari 13 digit angka.',
+            'kategori_buku.required' => 'Kategori buku wajib diisi.',
+            'jumlah_buku_tersedia.required' => 'Jumlah buku wajib diisi.',
+            'jumlah_buku_tersedia.integer' => 'Jumlah buku harus berupa angka.',
+            'jumlah_buku_tersedia.min' => 'Jumlah buku minimal 1.',
         ]);
 
         $buku->update($validated);

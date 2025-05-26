@@ -25,6 +25,18 @@ class PetugasController extends Controller
             'username' => 'required|string|max:50|unique:petugas,username',
             'password' => 'required|string|min:8|max:15',
             'email' => 'required|email|max:100|unique:petugas,email',
+        ], [
+            'nama.required' => 'Nama petugas wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'username.max' => 'Username maksimal 50 karakter.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.max' => 'Password maksimal 15 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 100 karakter.',
+            'email.unique' => 'Email sudah digunakan.',
         ]);
 
         $validated['password'] = bcrypt($validated['password']);
@@ -34,7 +46,6 @@ class PetugasController extends Controller
 
         return redirect()->route('petugas.index')->with('success', 'Petugas berhasil ditambahkan!');
     }
-
 
     public function show($id)
     {
@@ -56,7 +67,18 @@ class PetugasController extends Controller
             'nama' => 'required|string|max:100',
             'username' => 'required|string|max:50|unique:petugas,username,' . $petugas->id_petugas . ',id_petugas',
             'email' => 'required|email|max:100|unique:petugas,email,' . $petugas->id_petugas . ',id_petugas',
-            'password' => 'nullable|string|max:100',
+            'password' => 'nullable|string|min:8|max:15',
+        ], [
+            'nama.required' => 'Nama petugas wajib diisi.',
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'username.max' => 'Username maksimal 50 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 100 karakter.',
+            'email.unique' => 'Email sudah digunakan.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.max' => 'Password maksimal 15 karakter.',
         ]);
 
         if (!empty($validated['password'])) {
