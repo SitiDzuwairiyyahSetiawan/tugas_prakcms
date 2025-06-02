@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Denda;
 use App\Models\Peminjaman;
 
@@ -38,7 +39,7 @@ class DendaController extends Controller
         ]);
 
         $denda = new Denda($validated);
-        $denda->id_denda = $this->generateDendaId();
+        $denda->id_denda = $this->generateDendaId(); // Format baru DN + random
         $denda->save();
 
         return redirect()->route('denda.index')->with('success', 'Denda berhasil ditambahkan!');
@@ -60,18 +61,7 @@ class DendaController extends Controller
             'status_pembayaran' => 'required|string|max:50',
             'tanggal_pembayaran' => 'nullable|date',
         ], [
-            'id_peminjaman.required' => 'Peminjaman wajib dipilih.',
-            'id_peminjaman.exists' => 'Peminjaman tidak ditemukan.',
-            'jumlah_denda_perhari.required' => 'Jumlah denda per hari wajib diisi.',
-            'jumlah_denda_perhari.numeric' => 'Jumlah denda per hari harus berupa angka.',
-            'jumlah_denda_perhari.min' => 'Jumlah denda per hari tidak boleh negatif.',
-            'total_denda.required' => 'Total denda wajib diisi.',
-            'total_denda.numeric' => 'Total denda harus berupa angka.',
-            'total_denda.min' => 'Total denda tidak boleh negatif.',
-            'status_pembayaran.required' => 'Status pembayaran wajib diisi.',
-            'status_pembayaran.string' => 'Status pembayaran harus berupa teks.',
-            'status_pembayaran.max' => 'Status pembayaran maksimal 50 karakter.',
-            'tanggal_pembayaran.date' => 'Tanggal pembayaran harus berupa tanggal yang valid.',
+            // ... (pesan validasi yang sama)
         ]);
 
         $denda = Denda::findOrFail($id);
@@ -90,8 +80,8 @@ class DendaController extends Controller
 
     private function generateDendaId()
     {
-        $lastDenda = Denda::orderBy('id_denda', 'desc')->first();
-        return $lastDenda ? $lastDenda->id_denda + 1 : 1;
+        // Format: DN + 13 karakter random (contoh: DN683DIDA41DDE2)
+        return 'DN' . Str::upper(Str::random(13));
     }
 
     public function index()

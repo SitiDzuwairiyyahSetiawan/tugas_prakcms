@@ -55,6 +55,12 @@
                     </ul>
                 </li>
             </ul>
+            
+            <!-- Search Form -->
+            <form class="search-container" onsubmit="handleSearch(event)">
+                <input type="text" class="search-input" placeholder="Cari buku, siswa..." aria-label="Search">
+            </form>
+            
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
