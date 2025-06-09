@@ -32,3 +32,7 @@ Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->nam
 // Denda Routes
 Route::resource('denda', DendaController::class);
 Route::delete('/denda/{id}', [DendaController::class, 'destroy'])->name('denda.destroy');
+
+Route::get('/pendaftaran-ktp', function () {
+    return 'Selamat datang di halaman Pendaftaran KTP Online!';
+})->middleware('check.age');
