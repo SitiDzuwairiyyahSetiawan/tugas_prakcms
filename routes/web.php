@@ -6,6 +6,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\DendaController;
+use App\Http\Controllers\ImageController;
 
 Route::get('/', function () {
     return view('home');
@@ -36,3 +37,8 @@ Route::delete('/denda/{id}', [DendaController::class, 'destroy'])->name('denda.d
 Route::get('/pendaftaran-ktp', function () {
     return 'Selamat datang di halaman Pendaftaran KTP Online!';
 })->middleware('check.age');
+
+
+Route::get('/upload', [ImageController::class, 'create'])->name('image.upload.form');
+Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
+Route::delete('/image/{id}', [ImageController::class, 'destroy'])->name('image.delete');
