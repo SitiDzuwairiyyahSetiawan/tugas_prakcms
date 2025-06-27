@@ -11,11 +11,13 @@ class SiswaController extends Controller
     public function index()
     {
         $siswas = Siswa::all();
+        \Log::info('Mengakses daftar siswa');
         return view('siswa.index', compact('siswas'));
     }
 
     public function create()
     {
+        \Log::info('Mengakses halaman tambah siswa');
         return view('siswa.create');
     }
 
@@ -49,8 +51,17 @@ class SiswaController extends Controller
 
         try {
             Siswa::create($validated);
+            
+            \Log::info('Siswa berhasil ditambahkan', ['data' => $validated]);
+            
             return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan!');
         } catch (\Exception $e) {
+            \Log::error('Gagal menambahkan siswa', [
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
             return back()->withInput()->with('error', 'Gagal menambahkan siswa: ' . $e->getMessage());
         }
     }
@@ -59,8 +70,13 @@ class SiswaController extends Controller
     {
         try {
             $siswa = Siswa::findOrFail($id);
+            \Log::info('Mengakses detail siswa', ['id_siswa' => $id]);
             return view('siswa.show', compact('siswa'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Siswa tidak ditemukan saat melihat detail', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('siswa.index')->with('error', 'Data siswa tidak ditemukan.');
         }
     }
@@ -69,8 +85,13 @@ class SiswaController extends Controller
     {
         try {
             $siswa = Siswa::findOrFail($id);
+            \Log::info('Mengakses halaman edit siswa', ['id_siswa' => $id]);
             return view('siswa.edit', compact('siswa'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Siswa tidak ditemukan saat edit', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('siswa.index')->with('error', 'Data siswa tidak ditemukan.');
         }
     }
@@ -105,10 +126,24 @@ class SiswaController extends Controller
             ]);
 
             $siswa->update($validated);
-
+            
+            \Log::info('Siswa berhasil diperbarui', ['id_siswa' => $id, 'data' => $validated]);
+            
             return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diperbarui!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Siswa tidak ditemukan saat update', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('siswa.index')->with('error', 'Data siswa tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal memperbarui siswa', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withInput()->with('error', 'Gagal memperbarui siswa: ' . $e->getMessage());
         }
     }
 
@@ -117,10 +152,23 @@ class SiswaController extends Controller
         try {
             $siswa = Siswa::findOrFail($id);
             $siswa->delete();
-
+            
+            \Log::info('Siswa berhasil dihapus', ['id_siswa' => $id]);
+            
             return redirect()->route('siswa.index')->with('success', 'Siswa berhasil dihapus!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Siswa tidak ditemukan saat hapus', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('siswa.index')->with('error', 'Data siswa tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus siswa', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('siswa.index')->with('error', 'Gagal menghapus siswa: ' . $e->getMessage());
         }
     }
 
@@ -128,8 +176,13 @@ class SiswaController extends Controller
     {
         try {
             $siswa = Siswa::findOrFail($id);
+            \Log::info('Mengakses halaman konfirmasi hapus siswa', ['id_siswa' => $id]);
             return view('siswa.delete', compact('siswa'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Siswa tidak ditemukan saat konfirmasi hapus', [
+                'id_siswa' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('siswa.index')->with('error', 'Data siswa tidak ditemukan.');
         }
     }

@@ -13,12 +13,14 @@ class DendaController extends Controller
     public function index()
     {
         $dendas = Denda::all();
+        \Log::info('Mengakses daftar denda');
         return view('denda.index', compact('dendas'));
     }
 
     public function create()
     {
         $peminjamans = Peminjaman::all();
+        \Log::info('Mengakses halaman tambah denda');
         return view('denda.create', compact('peminjamans'));
     }
 
@@ -45,11 +47,25 @@ class DendaController extends Controller
             'tanggal_pembayaran.date' => 'Tanggal pembayaran harus berupa tanggal yang valid.',
         ]);
 
-        $validated['id_denda'] = $this->generateDendaId();
-
-        Denda::create($validated);
-
-        return redirect()->route('denda.index')->with('success', 'Denda berhasil ditambahkan!');
+        try {
+            $validated['id_denda'] = $this->generateDendaId();
+            Denda::create($validated);
+            
+            \Log::info('Denda berhasil ditambahkan', [
+                'id_peminjaman' => $validated['id_peminjaman'],
+                'total_denda' => $validated['total_denda']
+            ]);
+            
+            return redirect()->route('denda.index')->with('success', 'Denda berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menambahkan denda', [
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withInput()->with('error', 'Gagal menambahkan denda: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -57,8 +73,15 @@ class DendaController extends Controller
         try {
             $denda = Denda::findOrFail($id);
             $peminjamans = Peminjaman::all();
+            
+            \Log::info('Mengakses halaman edit denda', ['id_denda' => $id]);
+            
             return view('denda.edit', compact('denda', 'peminjamans'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Denda tidak ditemukan saat edit', [
+                'id_denda' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('denda.index')->with('error', 'Data denda tidak ditemukan.');
         }
     }
@@ -90,10 +113,24 @@ class DendaController extends Controller
             ]);
 
             $denda->update($validated);
-
+            
+            \Log::info('Denda berhasil diperbarui', ['id_denda' => $id]);
+            
             return redirect()->route('denda.index')->with('success', 'Denda berhasil diperbarui!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Denda tidak ditemukan saat update', [
+                'id_denda' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('denda.index')->with('error', 'Data denda tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal memperbarui denda', [
+                'id_denda' => $id,
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withInput()->with('error', 'Gagal memperbarui denda: ' . $e->getMessage());
         }
     }
 
@@ -102,10 +139,23 @@ class DendaController extends Controller
         try {
             $denda = Denda::findOrFail($id);
             $denda->delete();
-
+            
+            \Log::info('Denda berhasil dihapus', ['id_denda' => $id]);
+            
             return redirect()->route('denda.index')->with('success', 'Denda berhasil dihapus!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Denda tidak ditemukan saat hapus', [
+                'id_denda' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('denda.index')->with('error', 'Data denda tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus denda', [
+                'id_denda' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('denda.index')->with('error', 'Gagal menghapus denda: ' . $e->getMessage());
         }
     }
 
@@ -113,8 +163,13 @@ class DendaController extends Controller
     {
         try {
             $denda = Denda::findOrFail($id);
+            \Log::info('Mengakses detail denda', ['id_denda' => $id]);
             return view('denda.show', compact('denda'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Denda tidak ditemukan saat melihat detail', [
+                'id_denda' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('denda.index')->with('error', 'Data denda tidak ditemukan.');
         }
     }
@@ -123,8 +178,13 @@ class DendaController extends Controller
     {
         try {
             $denda = Denda::findOrFail($id);
+            \Log::info('Mengakses halaman konfirmasi hapus denda', ['id_denda' => $id]);
             return view('denda.delete', compact('denda'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Denda tidak ditemukan saat konfirmasi hapus', [
+                'id_denda' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('denda.index')->with('error', 'Data denda tidak ditemukan.');
         }
     }

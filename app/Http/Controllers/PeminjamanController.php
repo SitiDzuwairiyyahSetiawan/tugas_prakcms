@@ -15,6 +15,7 @@ class PeminjamanController extends Controller
     public function index()
     {
         $peminjaman = Peminjaman::with(['siswa', 'petugas', 'buku'])->get();
+        \Log::info('Mengakses daftar peminjaman');
         return view('peminjaman.index', compact('peminjaman'));
     }
 
@@ -24,6 +25,7 @@ class PeminjamanController extends Controller
         $petugas = Petugas::all();
         $bukus = Buku::all();
 
+        \Log::info('Mengakses halaman tambah peminjaman');
         return view('peminjaman.create', compact('siswas', 'petugas', 'bukus'));
     }
 
@@ -53,19 +55,38 @@ class PeminjamanController extends Controller
             'status_peminjaman.max' => 'Status peminjaman maksimal 50 karakter.',
         ]);
 
-        $validated['id_peminjaman'] = 'PM' . strtoupper(uniqid());
-
-        Peminjaman::create($validated);
-
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil ditambahkan!');
+        try {
+            $validated['id_peminjaman'] = 'PM' . strtoupper(uniqid());
+            Peminjaman::create($validated);
+            
+            \Log::info('Peminjaman berhasil ditambahkan', [
+                'id_siswa' => $validated['id_siswa'],
+                'id_buku' => $validated['id_buku']
+            ]);
+            
+            return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menambahkan peminjaman', [
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withInput()->with('error', 'Gagal menambahkan peminjaman: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
     {
         try {
             $peminjaman = Peminjaman::with(['siswa', 'petugas', 'buku'])->findOrFail($id);
+            \Log::info('Mengakses detail peminjaman', ['id_peminjaman' => $id]);
             return view('peminjaman.show', compact('peminjaman'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Peminjaman tidak ditemukan saat melihat detail', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan.');
         }
     }
@@ -78,8 +99,13 @@ class PeminjamanController extends Controller
             $petugas = Petugas::all();
             $bukus = Buku::all();
 
+            \Log::info('Mengakses halaman edit peminjaman', ['id_peminjaman' => $id]);
             return view('peminjaman.edit', compact('peminjaman', 'siswas', 'petugas', 'bukus'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Peminjaman tidak ditemukan saat edit', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan.');
         }
     }
@@ -114,10 +140,24 @@ class PeminjamanController extends Controller
             ]);
 
             $peminjaman->update($validated);
-
+            
+            \Log::info('Peminjaman berhasil diperbarui', ['id_peminjaman' => $id]);
+            
             return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diperbarui!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Peminjaman tidak ditemukan saat update', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal memperbarui peminjaman', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withInput()->with('error', 'Gagal memperbarui peminjaman: ' . $e->getMessage());
         }
     }
 
@@ -126,10 +166,23 @@ class PeminjamanController extends Controller
         try {
             $peminjaman = Peminjaman::findOrFail($id);
             $peminjaman->delete();
-
+            
+            \Log::info('Peminjaman berhasil dihapus', ['id_peminjaman' => $id]);
+            
             return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil dihapus!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Peminjaman tidak ditemukan saat hapus', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus peminjaman', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('peminjaman.index')->with('error', 'Gagal menghapus peminjaman: ' . $e->getMessage());
         }
     }
 
@@ -137,8 +190,13 @@ class PeminjamanController extends Controller
     {
         try {
             $peminjaman = Peminjaman::findOrFail($id);
+            \Log::info('Mengakses halaman konfirmasi hapus peminjaman', ['id_peminjaman' => $id]);
             return view('peminjaman.delete', compact('peminjaman'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Peminjaman tidak ditemukan saat konfirmasi hapus', [
+                'id_peminjaman' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan.');
         }
     }

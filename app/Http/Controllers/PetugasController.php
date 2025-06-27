@@ -11,11 +11,13 @@ class PetugasController extends Controller
     public function index()
     {
         $petugas = Petugas::all();
+        \Log::info('Mengakses daftar petugas');
         return view('petugas.index', compact('petugas'));
     }
 
     public function create()
     {
+        \Log::info('Mengakses halaman tambah petugas');
         return view('petugas.create');
     }
 
@@ -40,20 +42,37 @@ class PetugasController extends Controller
             'email.unique'      => 'Email sudah digunakan.',
         ]);
 
-        $validated['password'] = bcrypt($validated['password']);
-        $validated['id_petugas'] = 'PT' . strtoupper(uniqid());
-
-        Petugas::create($validated);
-
-        return redirect()->route('petugas.index')->with('success', 'Petugas berhasil ditambahkan!');
+        try {
+            $validated['password'] = bcrypt($validated['password']);
+            $validated['id_petugas'] = 'PT' . strtoupper(uniqid());
+            
+            Petugas::create($validated);
+            
+            \Log::info('Petugas berhasil ditambahkan', ['username' => $validated['username']]);
+            
+            return redirect()->route('petugas.index')->with('success', 'Petugas berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menambahkan petugas', [
+                'error' => $e->getMessage(),
+                'request' => $request->except('password'),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withInput()->with('error', 'Gagal menambahkan petugas: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
     {
         try {
             $petugas = Petugas::findOrFail($id);
+            \Log::info('Mengakses detail petugas', ['id_petugas' => $id]);
             return view('petugas.show', compact('petugas'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Petugas tidak ditemukan saat melihat detail', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('petugas.index')->with('error', 'Data petugas tidak ditemukan.');
         }
     }
@@ -62,8 +81,13 @@ class PetugasController extends Controller
     {
         try {
             $petugas = Petugas::findOrFail($id);
+            \Log::info('Mengakses halaman edit petugas', ['id_petugas' => $id]);
             return view('petugas.edit', compact('petugas'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Petugas tidak ditemukan saat edit', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('petugas.index')->with('error', 'Data petugas tidak ditemukan.');
         }
     }
@@ -98,10 +122,24 @@ class PetugasController extends Controller
             }
 
             $petugas->update($validated);
-
+            
+            \Log::info('Petugas berhasil diperbarui', ['id_petugas' => $id, 'username' => $validated['username']]);
+            
             return redirect()->route('petugas.index')->with('success', 'Petugas berhasil diperbarui!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Petugas tidak ditemukan saat update', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('petugas.index')->with('error', 'Data petugas tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal memperbarui petugas', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage(),
+                'request' => $request->except('password'),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withInput()->with('error', 'Gagal memperbarui petugas: ' . $e->getMessage());
         }
     }
 
@@ -110,10 +148,23 @@ class PetugasController extends Controller
         try {
             $petugas = Petugas::findOrFail($id);
             $petugas->delete();
-
+            
+            \Log::info('Petugas berhasil dihapus', ['id_petugas' => $id]);
+            
             return redirect()->route('petugas.index')->with('success', 'Petugas berhasil dihapus!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Petugas tidak ditemukan saat hapus', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('petugas.index')->with('error', 'Data petugas tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus petugas', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('petugas.index')->with('error', 'Gagal menghapus petugas: ' . $e->getMessage());
         }
     }
 
@@ -121,8 +172,13 @@ class PetugasController extends Controller
     {
         try {
             $petugas = Petugas::findOrFail($id);
+            \Log::info('Mengakses halaman konfirmasi hapus petugas', ['id_petugas' => $id]);
             return view('petugas.delete', compact('petugas'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Petugas tidak ditemukan saat konfirmasi hapus', [
+                'id_petugas' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('petugas.index')->with('error', 'Data petugas tidak ditemukan.');
         }
     }

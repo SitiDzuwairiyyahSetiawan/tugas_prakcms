@@ -50,19 +50,35 @@ class BukuController extends Controller
             'jumlah_buku_tersedia.min'       => 'Jumlah buku minimal 1.',
         ]);
 
-        $validated['id_buku'] = 'BK' . strtoupper(uniqid());
-
-        Buku::create($validated);
-
-        return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan!');
+        try {
+            $validated['id_buku'] = 'BK' . strtoupper(uniqid());
+            Buku::create($validated);
+            
+            \Log::info('Buku berhasil ditambahkan', ['data' => $validated]);
+            
+            return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menambahkan buku', [
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withInput()->with('error', 'Gagal menambahkan buku: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
     {
         try {
             $buku = Buku::findOrFail($id);
+            \Log::info('Mengakses halaman edit buku', ['id_buku' => $id]);
             return view('buku.edit', compact('buku'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Buku tidak ditemukan saat edit', [
+                'id_buku' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('buku.index')->with('error', 'Data buku tidak ditemukan.');
         }
     }
@@ -95,10 +111,24 @@ class BukuController extends Controller
             ]);
 
             $buku->update($validated);
-
+            
+            \Log::info('Buku berhasil diperbarui', ['id_buku' => $id, 'data' => $validated]);
+            
             return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Buku tidak ditemukan saat update', [
+                'id_buku' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('buku.index')->with('error', 'Data buku tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal memperbarui buku', [
+                'id_buku' => $id,
+                'error' => $e->getMessage(),
+                'request' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withInput()->with('error', 'Gagal memperbarui buku: ' . $e->getMessage());
         }
     }
 
@@ -107,10 +137,23 @@ class BukuController extends Controller
         try {
             $buku = Buku::findOrFail($id);
             $buku->delete();
-
+            
+            \Log::info('Buku berhasil dihapus', ['id_buku' => $id]);
+            
             return redirect()->route('buku.index')->with('success', 'Buku berhasil dihapus!');
         } catch (ModelNotFoundException $e) {
+            \Log::error('Buku tidak ditemukan saat hapus', [
+                'id_buku' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('buku.index')->with('error', 'Data buku tidak ditemukan.');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus buku', [
+                'id_buku' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('buku.index')->with('error', 'Gagal menghapus buku: ' . $e->getMessage());
         }
     }
 
@@ -118,8 +161,13 @@ class BukuController extends Controller
     {
         try {
             $buku = Buku::findOrFail($id);
+            \Log::info('Mengakses detail buku', ['id_buku' => $id]);
             return view('buku.show', compact('buku'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Buku tidak ditemukan saat melihat detail', [
+                'id_buku' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('buku.index')->with('error', 'Data buku tidak ditemukan.');
         }
     }
@@ -128,8 +176,13 @@ class BukuController extends Controller
     {
         try {
             $buku = Buku::findOrFail($id);
+            \Log::info('Mengakses halaman konfirmasi hapus buku', ['id_buku' => $id]);
             return view('buku.delete', compact('buku'));
         } catch (ModelNotFoundException $e) {
+            \Log::error('Buku tidak ditemukan saat konfirmasi hapus', [
+                'id_buku' => $id,
+                'error' => $e->getMessage()
+            ]);
             return redirect()->route('buku.index')->with('error', 'Data buku tidak ditemukan.');
         }
     }
