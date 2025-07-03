@@ -6,8 +6,20 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\DendaController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
-Route::get('/', function () {
+
+// Authentication Routes
+Route::get('/', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+
+
+Route::get('/home', function () {
     return view('home');
 });
 
