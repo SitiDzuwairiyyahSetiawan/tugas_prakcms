@@ -32,6 +32,6 @@ class RegisterController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('/');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Selamat datang di sistem perpustakaan.');
     }
 }

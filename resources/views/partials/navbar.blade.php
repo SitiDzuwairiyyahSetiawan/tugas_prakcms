@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/">Sistem Perpustakaan</a>
+        <a class="navbar-brand" href="/home">Sistem Perpustakaan</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Dashboard</a>
+                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/home">Dashboard</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ request()->is('buku*') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown">

@@ -48,7 +48,7 @@ class DendaController extends Controller
         ]);
 
         try {
-            $validated['id_denda'] = $this->generateDendaId();
+            // ID denda akan di-generate otomatis oleh boot method di model
             Denda::create($validated);
             
             \Log::info('Denda berhasil ditambahkan', [
@@ -67,7 +67,6 @@ class DendaController extends Controller
             return back()->withInput()->with('error', 'Gagal menambahkan denda: ' . $e->getMessage());
         }
     }
-
     public function edit($id)
     {
         try {
@@ -191,6 +190,12 @@ class DendaController extends Controller
 
     private function generateDendaId()
     {
-        return 'DN' . Str::upper(Str::random(13));
+        // Pastikan ID unik dengan mengecek ke database
+    do {
+        $id = 'DN' . Str::upper(Str::random(13));
+        $exists = Denda::where('id_denda', $id)->exists();
+    } while ($exists);
+    
+    return $id;
     }
 }

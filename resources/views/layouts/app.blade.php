@@ -430,10 +430,10 @@
     <div class="container">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="my-3">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+            <!-- <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i></a></li>
                 @yield('breadcrumb')
-            </ol>
+            </ol> -->
         </nav>
 
         <!-- Page Header -->

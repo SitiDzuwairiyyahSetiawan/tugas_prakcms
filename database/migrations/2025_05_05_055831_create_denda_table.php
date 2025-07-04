@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('dendas', function (Blueprint $table) {
-            $table->string('id_denda', 20)->primary();
+            $table->string('id_denda')->primary();
             $table->string('id_peminjaman', 20);
             $table->decimal('jumlah_denda_perhari', 10, 2);
             $table->decimal('total_denda', 10, 2);
