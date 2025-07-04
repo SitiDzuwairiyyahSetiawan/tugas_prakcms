@@ -106,7 +106,7 @@ class PeminjamanController extends Controller
                 'id_peminjaman' => $id,
                 'error' => $e->getMessage()
             ]);
-            return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan.');
+            return redirect()->route('peminjaman.index')->with('error', 'Data peminjaman tidak ditemukan');
         }
     }
 
