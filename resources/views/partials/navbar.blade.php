@@ -67,8 +67,8 @@
                         <i class="fas fa-user-circle me-1"></i> Admin
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-1"></i> Profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-1"></i> Pengaturan</a></li>
+                        <!-- <li><a class="dropdown-item" href="#"><i class="fas fa-user me-1"></i> Profil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-1"></i> Pengaturan</a></li> -->
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/"><i class="fas fa-sign-out-alt me-1"></i> Logout</a></li>
                     </ul>
